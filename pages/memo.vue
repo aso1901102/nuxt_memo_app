@@ -83,49 +83,62 @@ export default {
                     this.num_per_page * (this.$store.state.memo.page + 1));
             }
         },
-        page:{//pageプロパティオブジェクトのget/set
-            //$store.state.memo.pageの値を取り出す
-            get: function(){
-                return this.$store.state.memo.page;
-            },
-            //$storeに値を設定
-            set:function(p){
-                //Math.ceilで小数以下切り上げ
-                var page = p > (this.$store.state.memo.memo.length - 1) / this.num_per_page ? Math.ceil((this.$store.state.memo.memo.length - 1) / this.num_per_page) - 1 : p;
-                page = page < 0 ? 0 :page;
-                //commit('memo/set_page')でmemo.jsのmutationを呼び出す
-                this.$store.commit('memo/set_page',page);
-            }
+    },
+    page:{//pageプロパティオブジェクトのget/set
+        //$store.state.memo.pageの値を取り出す
+        get: function(){
+            return this.$store.state.memo.page;
         },
-        methods: {
-            set_flg: function(){
-                if(this.find_flg || this.sel_flg != false){
-                    this.find_flg = false;
-                    this.sel_flg = false;
-                    this.title = "";
-                    this.content = "";
-                }
-            },
-            insert: function(){
-                this.$store.commit('memo/insert',{title:this.title,content:this.content});
+        //$storeに値を設定
+        set:function(p){
+            //Math.ceilで小数以下切り上げ
+            var pg = p > (this.$store.state.memo.memo.length - 1) / this.num_per_page ? Math.ceil((this.$store.state.memo.memo.length - 1) / this.num_per_page) - 1 : p;
+            pg = pg < 0 ? 0 :pg;
+            //commit('memo/set_page')でmemo.jsのmutationを呼び出す
+            this.$store.commit('memo/set_page',pg);
+        }
+    },
+    methods: {
+        set_flg: function(){
+            if(this.find_flg || this.sel_flg != false){
+                this.find_flg = false;
+                this.sel_flg = false;
                 this.title = "";
                 this.content = "";
-            },
-            select: function(item){
-                this.find_flg = false;
-                this.sel_flg = item;
-                this.title = item.title;
-                this.content = item.content;
-            },
-            remove: function(){
-                if(this.sel_flg == false){
-                    return;
-                }else{
-                    this.$store.commit('memo/remove',this.sel_flg);
-                    this.set_flg();
-                }
-            },
-        }
+            }
+        },
+        insert: function(){
+            this.$store.commit('memo/insert',{title:this.title,content:this.content});
+            this.title = '';
+            this.content = '';
+        },
+        select: function(item){
+            this.find_flg = false;
+            this.sel_flg = item;
+            this.title = item.title;
+            this.content = item.content;
+        },
+        remove: function(){
+            if(this.sel_flg == false){
+                return;
+            }else{
+                this.$store.commit('memo/remove',this.sel_flg);
+                this.set_flg();
+            }
+        },
+        find:function(){
+            this.sel_flg = false;
+            this.find_flg = true;
+        },
+        next: function(){
+            this.page++;
+        },
+        prev: function(){
+            this.page--;
+        },
+    },
+    created: function(){
+        this.$store.commit('memo/set_page',0);
     },
 }
 </script>
