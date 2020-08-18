@@ -137,7 +137,7 @@ export default {
             this.page++;
         },
         prev:function(){
-            this.$store.state.memo.page--;
+            this.page--;
         },
     },
     created:function(){
