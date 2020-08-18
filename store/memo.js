@@ -14,6 +14,7 @@ export const mutations =  {
         });
     },
     set_page: function(state,p){
+        //引数ｐをstateに代入
         state.page = p;
     },
     remove: function(state,obj){

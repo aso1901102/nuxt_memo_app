@@ -79,24 +79,26 @@ export default {
             }else{
                 //$store.state.memo.memoの中身をスライスで取り出す
                 return this.$store.state.memo.memo.slice(
+                    //1ページのメモ数*ページ数
                     this.num_per_page * this.$store.state.memo.page,
                     this.num_per_page * (this.$store.state.memo.page + 1));
             }
         },
-    },
-    page:{//pageプロパティオブジェクトのget/set
-        //$store.state.memo.pageの値を取り出す
-        get:function(){
-            return this.$store.state.memo.page;
+        page:{
+            //pageプロパティオブジェクトのget/set
+            //$store.state.memo.pageの値を取り出す
+            get:function(){
+                return this.$store.state.memo.page;
+            },
+            //$storeに値を設定
+            set:function(p){
+                //Math.ceilで小数以下切り上げ
+                var pg = p > (this.$store.state.memo.memo.length - 1) / this.num_per_page ? Math.ceil((this.$store.state.memo.memo.length - 1) / this.num_per_page) - 1 : p;
+                pg = pg < 0 ? 0 :pg;
+                //commit('memo/set_page')でmemo.jsのmutationを呼び出す
+                this.$store.commit('memo/set_page',pg);
+            }
         },
-        //$storeに値を設定
-        set:function(p){
-            //Math.ceilで小数以下切り上げ
-            var pg = p > (this.$store.state.memo.memo.length - 1) / this.num_per_page ? Math.ceil((this.$store.state.memo.memo.length - 1) / this.num_per_page) - 1 : p;
-            pg = pg < 0 ? 0 :pg;
-            //commit('memo/set_page')でmemo.jsのmutationを呼び出す
-            this.$store.commit('memo/set_page',pg);
-        }
     },
     methods: {
         set_flg:function(){
@@ -134,7 +136,7 @@ export default {
             this.page++;
         },
         prev:function(){
-            this.page--;
+            this.$store.state.memo.page--;
         },
     },
     created:function(){
