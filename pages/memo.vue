@@ -48,7 +48,7 @@
 
 <script>
 export default {
-    data: function(){
+    data:function(){
         return {
             title:'',
             content:'',
@@ -64,7 +64,7 @@ export default {
         memo:function(){
             return this.$store.state.memo.memo;
         },
-        page_items: function(){
+        page_items:function(){
             if(this.find_flg){
                 var arr = [];
                 var data = this.$store.state.memo.memo;
@@ -86,7 +86,7 @@ export default {
     },
     page:{//pageプロパティオブジェクトのget/set
         //$store.state.memo.pageの値を取り出す
-        get: function(){
+        get:function(){
             return this.$store.state.memo.page;
         },
         //$storeに値を設定
@@ -99,7 +99,7 @@ export default {
         }
     },
     methods: {
-        set_flg: function(){
+        set_flg:function(){
             if(this.find_flg || this.sel_flg != false){
                 this.find_flg = false;
                 this.sel_flg = false;
@@ -107,18 +107,18 @@ export default {
                 this.content = "";
             }
         },
-        insert: function(){
+        insert:function(){
             this.$store.commit('memo/insert',{title:this.title,content:this.content});
             this.title = '';
             this.content = '';
         },
-        select: function(item){
+        select:function(item){
             this.find_flg = false;
             this.sel_flg = item;
             this.title = item.title;
             this.content = item.content;
         },
-        remove: function(){
+        remove:function(){
             if(this.sel_flg == false){
                 return;
             }else{
@@ -130,14 +130,14 @@ export default {
             this.sel_flg = false;
             this.find_flg = true;
         },
-        next: function(){
+        next:function(){
             this.page++;
         },
-        prev: function(){
+        prev:function(){
             this.page--;
         },
     },
-    created: function(){
+    created:function(){
         this.$store.commit('memo/set_page',0);
     },
 }
