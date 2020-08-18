@@ -132,6 +132,7 @@ export default {
             this.sel_flg = false;
             this.find_flg = true;
         },
+        //ページの切替
         next:function(){
             this.page++;
         },
